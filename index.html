@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用文档 · 药物科普机器人</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
+               "Segoe UI", Roboto, sans-serif;
+  color: #1f2937; background: #f1f5f9; line-height: 1.75; font-size: 15px;
+}
+a { color: #0f766e; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px 64px; }
+
+/* ---- 顶部 ---- */
+header.top {
+  position: sticky; top: 0; z-index: 20;
+  background: linear-gradient(135deg, #0f766e, #0e7490);
+  color: #fff; padding: 20px 16px 18px;
+  box-shadow: 0 2px 14px rgba(0,0,0,.14);
+}
+header.top .inner { max-width: 960px; margin: 0 auto; }
+header.top h1 { font-size: 21px; font-weight: 700; letter-spacing: .5px; }
+header.top .sub { opacity: .92; font-size: 13px; margin-top: 5px; }
+.search { margin-top: 14px; }
+.search input {
+  width: 100%; padding: 11px 14px; border: none; border-radius: 10px;
+  font-size: 15px; outline: none; color: #1f2937;
+  box-shadow: 0 1px 4px rgba(0,0,0,.18);
+}
+.search input::placeholder { color: #9ca3af; }
+
+/* ---- 目录 chips ---- */
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+.toc a {
+  background: #fff; color: #0f766e; border: 1px solid #e2e8f0; border-radius: 999px;
+  padding: 5px 13px; font-size: 13px; white-space: nowrap;
+}
+.toc a:hover { background: #0f766e; color: #fff; border-color: #0f766e; }
+
+/* ---- 分类与条目 ---- */
+section.cat { margin-top: 26px; }
+section.cat > h2 {
+  font-size: 17px; color: #0f766e; padding: 6px 0 10px;
+  border-bottom: 2px solid #0f766e; margin-bottom: 12px;
+}
+details.item {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+  margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+details.item > summary {
+  cursor: pointer; list-style: none; padding: 13px 16px; display: flex;
+  align-items: baseline; gap: 10px; flex-wrap: wrap;
+}
+details.item > summary::-webkit-details-marker { display: none; }
+details.item > summary::before {
+  content: "▸"; color: #0f766e; font-weight: 700; transition: transform .15s;
+}
+details.item[open] > summary::before { transform: rotate(90deg); }
+details.item > summary .t { font-weight: 600; font-size: 15px; }
+details.item > summary .chips { display: inline-flex; flex-wrap: wrap; gap: 5px; }
+.kw {
+  background: #ecfeff; color: #0e7490; border-radius: 6px; padding: 0 7px;
+  font-size: 12px; line-height: 20px;
+}
+details.item .body { padding: 4px 16px 16px 18px; border-top: 1px dashed #eef2f7; }
+.sec { margin-top: 12px; }
+.sec h4 { font-size: 14px; color: #374151; margin-bottom: 4px; }
+.sec ul { padding-left: 18px; }
+.sec li { margin: 3px 0; color: #4b5563; }
+.sec li.warn {
+  color: #b91c1c; font-weight: 600;
+  background: #fef2f2; border-left: 3px solid #dc2626; padding: 6px 10px;
+  border-radius: 0 6px 6px 0; list-style: none; margin-left: -18px;
+}
+
+/* ---- 使用文档页 ---- */
+.intro { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px;
+  padding: 14px 16px; margin-top: 24px; color: #065f46; font-size: 14px; }
+.card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 14px;
+  margin-top: 20px; padding: 20px 22px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.card h2 { font-size: 18px; color: #0f766e; margin-bottom: 8px; }
+.card .desc { color: #4b5563; margin-bottom: 10px; }
+.cmd {
+  background: #0f172a; color: #d1fae5; border-radius: 8px; padding: 10px 14px;
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13.5px; margin: 6px 0; overflow-x: auto; white-space: pre-wrap;
+}
+.note { color: #6b7280; font-size: 13px; margin-top: 6px; }
+.btn {
+  display: inline-block; background: #0f766e; color: #fff; border-radius: 999px;
+  padding: 9px 20px; font-size: 14px; margin-top: 8px; font-weight: 600;
+}
+.btn:hover { background: #115e59; text-decoration: none; color: #fff; }
+.dircat { margin-top: 14px; }
+.dircat h3 { font-size: 14px; color: #0f766e; margin-bottom: 6px; }
+.dircat ul { list-style: none; padding-left: 4px; }
+.dircat li { margin: 5px 0; }
+.dircat .hint { color: #9ca3af; font-size: 12px; margin-left: 6px; }
+
+footer.foot {
+  margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb;
+  color: #9ca3af; font-size: 12.5px; text-align: center;
+}
+#empty { display: none; text-align: center; color: #9ca3af; padding: 30px 0; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <h1>📖 使用文档</h1>
+    <div class="sub">药物科普机器人 · 群内命令说明</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">本机器人面向群成员开放，只读查询、无需权限。三大功能：<b>查药</b>（药物科普）、<b>急救</b>（突发情况急救方法）、<b>点歌</b>（网易云点歌）。</div>
+
+  
+<div class="card">
+  <h2>① 💊 查药</h2>
+  <div class="desc">查询药物的中文科普：适应症、作用机制、抗菌谱、耐药性、不良反应（无数据的板块自动省略），并附化学结构式图片。</div>
+  <div class="cmd">/查药 布洛芬      → 中文名精确查
+/查药 ibuprofen   → 英文名查（不区分大小写）
+/查药 青霉素      → 模糊匹配，命中多个则列出候选</div>
+  <div class="note">别名：/药、/查询、/drug　·　数据来源 PubChem，仅供科普参考</div>
+</div>
+
+<div class="card">
+  <h2>② 🆘 急救（查急救）</h2>
+  <div class="desc">查询突发情况的急救方法，每项固定四段：物理急救 / 药物急救 / 具体流程 / 注意事项。覆盖 8 大类 34 项（心脏骤停 CPR、海姆立克、烧烫伤、中毒、动物咬伤、中暑、溺水等）。</div>
+  <div class="cmd">/急救             → 查看全部目录
+/急救 心脏骤停    → 按名称查
+/急救 心梗        → 按别名查（心梗 → 心肌梗死）
+/急救 噎住        → 按别名查（噎住 → 气道异物梗阻）</div>
+  <div class="note">别名：/急救方法、/急救指南　·　下方附完整急救库目录，点条目名可跳转网页版</div>
+</div>
+
+<div class="card">
+  <h2>③ 🎵 点歌</h2>
+  <div class="desc">网易云点歌：搜索歌曲 → 返回「试听链接 + 歌词长图」；多个结果时回复数字选择。</div>
+  <div class="cmd">/点歌 晴天         → 直接返回（仅 1 个结果）
+/点歌 晴天 周杰伦  → 加歌手名更精确
+（多结果时回复 1 / 2 / 3 … 选择，60 秒内有效）</div>
+  <div class="note">音乐源：网易云音乐</div>
+</div>
+
+
+  <div class="card">
+    <h2>🆘 急救库目录（8 大类 34 项）</h2>
+    <div class="desc">完整急救库已单独做成网页：每条含四段急救方法、支持关键词搜索。</div>
+    <a class="btn" href="emergency.html" target="_blank">打开完整急救库网页 →</a>
+    <div class="dircat"><h3>一、心搏骤停与心脑血管急症</h3><ul><li><a href="emergency.html#item-0">心脏骤停</a><span class="hint">心脏骤停 / 心跳停止 / 心肺复苏 / cpr / aed</span></li><li><a href="emergency.html#item-1">心肌梗死</a><span class="hint">心肌梗死 / 心梗 / 急性心梗 / 心绞痛 / 冠心病</span></li><li><a href="emergency.html#item-2">脑卒中</a><span class="hint">脑卒中 / 中风 / 脑梗 / 脑出血 / 脑溢血</span></li><li><a href="emergency.html#item-3">高血压危象</a><span class="hint">高血压危象 / 高血压急症 / 血压高 / 血压飙升</span></li><li><a href="emergency.html#item-4">晕厥</a><span class="hint">晕厥 / 昏倒 / 晕倒 / 突然昏倒 / 眼前发黑</span></li></ul></div><div class="dircat"><h3>二、呼吸与气道急症</h3><ul><li><a href="emergency.html#item-5">气道异物梗阻</a><span class="hint">气道异物 / 噎住 / 噎食 / 海姆立克 / 卡喉</span></li><li><a href="emergency.html#item-6">哮喘急性发作</a><span class="hint">哮喘 / 哮喘发作 / 喘息 / 气喘</span></li><li><a href="emergency.html#item-7">严重过敏反应</a><span class="hint">过敏 / 过敏性休克 / 荨麻疹 / 喉头水肿 / 药物过敏</span></li></ul></div><div class="dircat"><h3>三、神经与代谢急症</h3><ul><li><a href="emergency.html#item-8">癫痫发作</a><span class="hint">癫痫 / 抽搐 / 羊癫疯 / 抽风 / 羊角风</span></li><li><a href="emergency.html#item-9">低血糖与糖尿病急症</a><span class="hint">低血糖 / 高血糖 / 糖尿病 / 酮症酸中毒 / 血糖</span></li><li><a href="emergency.html#item-10">高热惊厥</a><span class="hint">高热惊厥 / 热性惊厥 / 发烧抽搐 / 儿童惊厥 / 高热</span></li></ul></div><div class="dircat"><h3>四、创伤急救</h3><ul><li><a href="emergency.html#item-11">严重出血止血</a><span class="hint">出血 / 大出血 / 止血 / 流血不止 / 伤口出血</span></li><li><a href="emergency.html#item-12">骨折</a><span class="hint">骨折 / 断骨 / 骨裂</span></li><li><a href="emergency.html#item-13">关节脱臼</a><span class="hint">脱臼 / 脱位 / 关节脱位 / 错位</span></li><li><a href="emergency.html#item-14">扭伤与拉伤</a><span class="hint">扭伤 / 拉伤 / 崴脚 / 肌肉拉伤 / 韧带拉伤</span></li><li><a href="emergency.html#item-15">割伤 / 划伤</a><span class="hint">割伤 / 划伤 / 刀伤 / 锐器伤 / 破伤风</span></li><li><a href="emergency.html#item-16">头颅外伤</a><span class="hint">头颅外伤 / 头部受伤 / 脑震荡 / 撞头 / 磕到头</span></li><li><a href="emergency.html#item-17">脊柱与颈部损伤</a><span class="hint">脊柱损伤 / 颈椎损伤 / 腰椎损伤 / 颈部损伤 / 摔伤瘫痪</span></li><li><a href="emergency.html#item-18">胸腹部撞击伤</a><span class="hint">内伤 / 内出血 / 撞击伤 / 腹部撞击 / 胸腹伤</span></li><li><a href="emergency.html#item-19">断肢 / 断指</a><span class="hint">断肢 / 断指 / 断手 / 断脚 / 再植</span></li></ul></div><div class="dircat"><h3>五、烧烫伤与理化损伤</h3><ul><li><a href="emergency.html#item-20">烧烫伤</a><span class="hint">烧烫伤 / 烧伤 / 烫伤 / 开水烫 / 烫到了</span></li><li><a href="emergency.html#item-21">化学灼伤</a><span class="hint">化学灼伤 / 强酸 / 强碱 / 硫酸 / 烧碱</span></li><li><a href="emergency.html#item-22">电击伤</a><span class="hint">电击 / 触电 / 被电</span></li><li><a href="emergency.html#item-23">冻伤与体温过低</a><span class="hint">冻伤 / 失温 / 体温过低 / 冻僵</span></li></ul></div><div class="dircat"><h3>六、中毒</h3><ul><li><a href="emergency.html#item-24">食物中毒</a><span class="hint">食物中毒 / 吃坏肚子 / 腹泻 / 拉肚子 / 上吐下泻</span></li><li><a href="emergency.html#item-25">一氧化碳中毒</a><span class="hint">一氧化碳中毒 / 煤气中毒 / co中毒 / 炭火中毒</span></li><li><a href="emergency.html#item-26">酒精中毒</a><span class="hint">酒精中毒 / 醉酒 / 喝醉 / 酗酒 / 酒精</span></li><li><a href="emergency.html#item-27">药物中毒</a><span class="hint">药物中毒 / 过量服药 / 吃错药 / 安眠药 / 误服药物</span></li></ul></div><div class="dircat"><h3>七、动物咬伤与蜇伤</h3><ul><li><a href="emergency.html#item-28">犬/猫咬伤</a><span class="hint">狗咬 / 猫咬 / 犬咬 / 狂犬病 / 动物咬伤</span></li><li><a href="emergency.html#item-29">蛇咬伤</a><span class="hint">蛇咬 / 毒蛇 / 蛇伤 / 被蛇咬</span></li><li><a href="emergency.html#item-30">蜂/蝎/蜈蚣等毒虫蜇伤</a><span class="hint">蜂蜇 / 蜜蜂 / 马蜂 / 蝎子 / 蜈蚣</span></li></ul></div><div class="dircat"><h3>八、环境与常见急症</h3><ul><li><a href="emergency.html#item-31">溺水</a><span class="hint">溺水 / 落水 / 淹水 / 呛水</span></li><li><a href="emergency.html#item-32">中暑</a><span class="hint">中暑 / 热射病 / 高温 / 热晕 / 中暑晕倒</span></li><li><a href="emergency.html#item-33">鼻出血</a><span class="hint">鼻出血 / 流鼻血 / 鼻血</span></li></ul></div>
+  </div>
+
+  <footer class="foot">数据仅供科普参考，不构成医疗 / 用药建议 · 紧急情况请立即拨打 120</footer>
+</div>
+</body>
+</html>
